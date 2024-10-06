@@ -1,5 +1,7 @@
 [versions]
 agp = "8.4.1"
+circularSeekBar = "0.0.2"
+converterGson = "2.11.0"
 fragmentKtx = "1.8.4"
 gson = "2.10.1"
 kotlin = "1.9.0"
@@ -15,6 +17,8 @@ retrofit = "2.11.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+circular-seek-bar = { module = "io.github.ningyuv:circular-seek-bar", version.ref = "circularSeekBar" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

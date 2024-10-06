@@ -11,9 +11,11 @@ import android.os.Looper
 import android.os.Message
 import android.os.Messenger
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.hackvlc.cropcompanion.service.CommService
+import com.hackvlc.cropcompanion.ui.AlarmFrameLayout
 
 class MainActivity : ComponentActivity() {
 
@@ -22,6 +24,8 @@ class MainActivity : ComponentActivity() {
     private var responseMessenger = Messenger(ResponseHandler())
 
     private var mBound: Boolean = false
+
+    private lateinit var alarmFrame: AlarmFrameLayout
 
     private val connection = object : ServiceConnection {
 
@@ -64,13 +68,23 @@ class MainActivity : ComponentActivity() {
                 }
 
                 CommService.HEAVY_RAINING_ALERT -> {
-                    notify("Heavy rain alert received")
+                    heavyRainingAlertHandler()
                 }
 
                 CommService.STRONG_WIND_ALERT -> {
-                    notify("Strong wind alert received")
+                    strongWindAlertHandler()
                 }
             }
+        }
+
+        private fun heavyRainingAlertHandler() {
+            alarmFrame.startBlink()
+            notify("Heavy rain alert received")
+        }
+
+        private fun strongWindAlertHandler() {
+            alarmFrame.startBlink()
+            notify("Strong wind alert received")
         }
 
         private fun notify(txt: String) {
@@ -81,6 +95,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_layout)
+
+        alarmFrame = findViewById(R.id.alarm_frame_layout)
 
         findViewById<Button>(R.id.water_command_button).setOnClickListener {
             sendWaterCommand(0)

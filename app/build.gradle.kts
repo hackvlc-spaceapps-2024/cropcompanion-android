@@ -69,7 +69,10 @@ dependencies {
 
     implementation (libs.retrofit)
     implementation(libs.gson)
+    implementation(libs.converter.gson)
 
     implementation(libs.androidx.fragment.ktx)
+
+    implementation (libs.circular.seek.bar)
 
 }

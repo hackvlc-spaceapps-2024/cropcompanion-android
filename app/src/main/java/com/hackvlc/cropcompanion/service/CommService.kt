@@ -8,6 +8,8 @@ import android.os.Looper
 import android.os.Message
 import android.os.Messenger
 import android.util.Log
+import com.hackvlc.cropcompanion.data.Command
+import com.hackvlc.cropcompanion.data.api.ApiService
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
@@ -62,17 +64,20 @@ class CommService : Service() {
     }
 
 
+
     private lateinit var mMessenger: Messenger
 
     internal class CommandHandler : Handler(Looper.getMainLooper()) {
 
         private val scheduler = Executors.newSingleThreadScheduledExecutor()
 
-       inner class AlarmNotification(private val messenger: Messenger) : Runnable {
+        private val api = ApiService.INSTANCE
+
+        inner class AlarmNotification(private val messenger: Messenger) : Runnable {
+            private val api = ApiService.INSTANCE
 
             override fun run() {
-                Log.i("AlarmNotification", "alarm trigger")
-                // call api for notification
+               // val alarms = api.getAlarms()
                 val alert = 1
                 when (alert) {
                     1 -> {
@@ -82,7 +87,6 @@ class CommService : Service() {
                         strongWindAlertNotification(messenger)
                     }
                 }
-
             }
         }
 
@@ -114,7 +118,9 @@ class CommService : Service() {
         }
 
         private fun registerNotification(msg: Message) {
-            scheduler.scheduleWithFixedDelay(AlarmNotification(msg.replyTo), 0, 30, TimeUnit.SECONDS)
+            scheduler.scheduleWithFixedDelay(
+                AlarmNotification(msg.replyTo), 30, 30, TimeUnit.SECONDS
+            )
             confirmBackMessage(msg)
         }
 
@@ -125,19 +131,19 @@ class CommService : Service() {
 
         private fun commandWatering(msg: Message) {
             val opening = msg.obj as Int
-            //TODO api call for watering
+            //api.sendCommand(Command("", opening))
             confirmBackMessage(msg)
         }
 
         private fun commandLight(msg: Message) {
             val opening = msg.obj as Int
-            //TODO api call for light
+            //api.sendCommand(Command("", opening))
             confirmBackMessage(msg)
         }
 
         private fun commandWindow(msg: Message) {
             val opening = msg.obj as Int
-            // TODO api call for window
+            //api.sendCommand(Command("", opening))
             confirmBackMessage(msg)
         }
 
