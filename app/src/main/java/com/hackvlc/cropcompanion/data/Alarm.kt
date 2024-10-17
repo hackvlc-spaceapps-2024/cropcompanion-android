@@ -1,3 +1,7 @@
 package com.hackvlc.cropcompanion.data
 
-data class Alarm(val time: String, val type: String)
+sealed class Alarm {
+    data object SolarIsolationAlarm : Alarm()
+    data object HeavyRainAlarm : Alarm()
+    data object StrongWindAlarm : Alarm()
+}

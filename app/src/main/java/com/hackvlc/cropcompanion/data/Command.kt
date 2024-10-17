@@ -1,3 +1,3 @@
 package com.hackvlc.cropcompanion.data
 
-data class Command(val type: String, val payload: Int)
+data class Command(val lights: String, val cover: Boolean, val irrigate: Boolean)

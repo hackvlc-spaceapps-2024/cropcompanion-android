@@ -73,6 +73,8 @@ dependencies {
 
     implementation(libs.androidx.fragment.ktx)
 
-    implementation (libs.circular.seek.bar)
+    implementation (libs.arcseekbar)
+
+    implementation(libs.logging.interceptor)
 
 }

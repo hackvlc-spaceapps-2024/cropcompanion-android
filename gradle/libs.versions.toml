@@ -1,6 +1,8 @@
 [versions]
 agp = "8.4.1"
+arcseekbar = "0.31"
 circularSeekBar = "0.0.2"
+circularseekbarVersion = "1.4.2"
 converterGson = "2.11.0"
 fragmentKtx = "1.8.4"
 gson = "2.10.1"
@@ -12,12 +14,15 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2023.08.00"
+loggingInterceptor = "4.12.0"
 retrofit = "2.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+arcseekbar = { module = "com.github.marcinmoskala:ArcSeekBar", version.ref = "arcseekbar" }
 circular-seek-bar = { module = "io.github.ningyuv:circular-seek-bar", version.ref = "circularSeekBar" }
+circularseekbar = { module = "me.tankery.lib:circularSeekBar", version.ref = "circularseekbarVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -33,6 +38,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]

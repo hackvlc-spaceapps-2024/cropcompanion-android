@@ -12,10 +12,13 @@ import android.os.Message
 import android.os.Messenger
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.SeekBar
+import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.hackvlc.cropcompanion.service.CommService
 import com.hackvlc.cropcompanion.ui.AlarmFrameLayout
+import com.hackvlc.cropcompanion.ui.SeekProgressView
 
 class MainActivity : ComponentActivity() {
 
@@ -98,16 +101,16 @@ class MainActivity : ComponentActivity() {
 
         alarmFrame = findViewById(R.id.alarm_frame_layout)
 
-        findViewById<Button>(R.id.water_command_button).setOnClickListener {
-            sendWaterCommand(0)
+        findViewById<Switch>(R.id.water_command_button).setOnCheckedChangeListener { _, isChecked ->
+            sendWaterCommand(if (isChecked) 1 else 0)
         }
 
-        findViewById<Button>(R.id.light_command_button).setOnClickListener {
-            sendLightCommand(0)
+        findViewById<Switch>(R.id.light_command_button).setOnCheckedChangeListener { _, isChecked ->
+            sendLightCommand(if (isChecked) 1 else 0)
         }
 
-        findViewById<Button>(R.id.window_command_button).setOnClickListener {
-            sendWindowCommand(0)
+        findViewById<SeekProgressView>(R.id.window_command_button).addProgressListener {
+            sendWindowCommand(it)
         }
     }
 

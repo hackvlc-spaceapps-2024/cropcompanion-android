@@ -7,11 +7,11 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.Message
 import android.os.Messenger
-import android.util.Log
+import com.hackvlc.cropcompanion.data.Alarm
 import com.hackvlc.cropcompanion.data.Command
+import com.hackvlc.cropcompanion.data.ReadingService
 import com.hackvlc.cropcompanion.data.api.ApiService
 import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
 class CommService : Service() {
@@ -61,6 +61,8 @@ class CommService : Service() {
         const val HEAVY_RAINING_ALERT = 5
 
         const val STRONG_WIND_ALERT = 6
+
+        const val SOLAR_ISOLATION_ALERT = 7
     }
 
 
@@ -74,17 +76,23 @@ class CommService : Service() {
         private val api = ApiService.INSTANCE
 
         inner class AlarmNotification(private val messenger: Messenger) : Runnable {
-            private val api = ApiService.INSTANCE
+
+            private val readingService = ReadingService.Impl(ApiService.INSTANCE)
 
             override fun run() {
-               // val alarms = api.getAlarms()
-                val alert = 1
-                when (alert) {
-                    1 -> {
-                        heavyRainingAlertNotification(messenger)
-                    }
-                    2->{
-                        strongWindAlertNotification(messenger)
+                readingService.getAlarms()?.run {
+                    when (this) {
+                        is Alarm.HeavyRainAlarm -> {
+                            heavyRainingAlertNotification(messenger)
+                        }
+
+                        is Alarm.StrongWindAlarm -> {
+                            strongWindAlertNotification(messenger)
+                        }
+
+                        is Alarm.SolarIsolationAlarm -> {
+                            strongWindAlertNotification(messenger)
+                        }
                     }
                 }
             }
@@ -119,7 +127,7 @@ class CommService : Service() {
 
         private fun registerNotification(msg: Message) {
             scheduler.scheduleWithFixedDelay(
-                AlarmNotification(msg.replyTo), 30, 30, TimeUnit.SECONDS
+                AlarmNotification(msg.replyTo), 0, 15, TimeUnit.SECONDS
             )
             confirmBackMessage(msg)
         }
@@ -136,8 +144,8 @@ class CommService : Service() {
         }
 
         private fun commandLight(msg: Message) {
-            val opening = msg.obj as Int
-            //api.sendCommand(Command("", opening))
+            //val opening = msg.obj as Int
+            Thread { api.sendCommand(Command("blanco", false, false)).execute() }.start()
             confirmBackMessage(msg)
         }
 
@@ -153,6 +161,10 @@ class CommService : Service() {
 
         private fun strongWindAlertNotification(messenger: Messenger) {
             messenger.send(Message.obtain(null, STRONG_WIND_ALERT))
+        }
+
+        private fun solarIsolationAlertNotification(messenger: Messenger) {
+            messenger.send(Message.obtain(null, SOLAR_ISOLATION_ALERT))
         }
 
         private fun confirmBackMessage(msg: Message) {
